@@ -41,7 +41,7 @@ def new_command(message):
     else:
         with open('commands.csv', 'a') as csv_file:
             csv_file.write(
-                f'\n{new_command},{new_response},{message.author},{datetime.now().strftime("%m/%d/%Y, %H:%M:%S")}')
+                f'{new_command},{new_response},{message.author},{datetime.now().strftime("%m/%d/%Y-%H:%M:%S")}')
         return f'**Creating new command with:**\n    command = _{new_command}\n    response = {new_response}\n    creator = {message.author}\n\n    *created at {datetime.now().strftime("%m/%d/%Y-%H:%M:%S")}'
 
     # # Searching for command in commands.csv
