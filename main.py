@@ -9,11 +9,13 @@ from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 from timers import *
 
+
 # Toggles
 debug_mode = True
 accepting_responses = False
 dev_override = True
 dev = ['mauberries#0001','ohiotexas#9559']
+
 
 # Loading .env
 load_dotenv()
@@ -21,24 +23,47 @@ load_dotenv()
 # Defining bot process
 bot = discord.Client()
 
-token = str(os.getenv('token'))
+# Keeping this here in the case dotenv not being used
+# token = str(os.getenv('token'))
 
 
 # Event to add commands to bot from discord
 @bot.event
 async def on_message(message):
 
+    timestamp = datetime.now().strftime("%m/%d/%Y-%H:%M:%S") + ' ... '
+    author = message.author
+    # Parsing message to set command as word in between first underscore and next space
+    try:
+        command = message.content.split("_")[1].split(" ")[0].replace('?','')
+    except:
+        command = message.content.split(' ')[0]
+
+
+# Console messages
+    if message.content.find('_') != -1:
+        # Exiting if bot
+        if message.author.bot:
+            return
+        else:
+            print(f'{timestamp}{author} executed [{command}]. ')
+
+
     if message.author.bot:
         return
 
+# _add command
     if message.content.find('_add') != -1:
+        # Exiting if author is a bot
         if message.author.bot:
             return
+
         # Checking if accept responses are on for new commands
         if accepting_responses and message.content[4:] == '_add' or str(message.author) in dev:
             response = new_command(message)
             if response != None:
                 await message.channel.send(response)
+
         # Responding in discord if requests are turned off
         else:
             if message.content[4:] == '_add':
@@ -46,34 +71,44 @@ async def on_message(message):
         return
 
 
+# responding to all commands within commands.csv
     if message.content.find('_') != -1:
+        # Exiting if author is a bot
         if message.author.bot:
             return
-        command = message.content[1:]
+
+        # Retrieving and creating a list of commands from commands.csv
         with open('commands.csv', encoding='utf8') as csv_file:
-            commands = [str(row.split(',')[0]) for row in csv_file]
+            commands = [row.split(',')[0] for row in csv_file]
+
+        # Checking if parsed command is in list of commands, responding with response on csv if so
         if command in commands:
-            await message.channel.send(str(python_vlookup.vlookup(command, 'commands.csv',2)))
-        return
+            # BLANK ROWS IN CSV FILE WILL RESULT IN 'list index out of range' ERROR!
+            await message.channel.send(python_vlookup.vlookup(command, 'commands.csv',2).replace('///n','\n'))
 
 
+# 'nice' response if message contains '69' except if the message contains the below text
     if message.content.find("69") != -1:
         if message.content.find("cdn.discordapp.com") != -1:
             await message.channel.send("nice.")
+            print('')
         else:
             pass
 
 
+# _timer command
     if message.content.find("_timer") != -1:
         await message.channel.send(timer_parse(message.content, str(message.author.id)))
 
 
+# _pid command
     if message.content == ("_pid"):
         await message.delete()
         await message.channel.send("ᵖᶦᵈ")
         await message.channel.send(read_data('dab'))
 
 
+# _fact command
     if message.content == ("_fact"):
         content = urllib.request.urlopen("https://fungenerators.com/random/facts/animal/sheep")
         read_content = content.read()
@@ -86,10 +121,12 @@ async def on_message(message):
         await message.channel.send(fact_final)
 
 
+# responding with chips gif if chipsncrackr is mentioned
     if message.content.find(os.getenv('ID_chipsncrackr')) != -1:
         await message.channel.send("https://tenor.com/view/chips-and-dip-snacks-chips-dip-snack-gif-16658490")
 
 
+# responding to reddit links with content only message so it will preview in discord
     if message.content.find("reddit.com") != -1:
         #print("reddit message received")
         content = Request(str(message.content)+".json", headers={"User-Agent": "Mozilla/5.0"})
@@ -113,7 +150,5 @@ async def on_message(message):
             await message.channel.send(post_trim)
         else:
             return
-
-# @bot.event
 
 bot.run(str(os.getenv('token')))

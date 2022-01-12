@@ -4,6 +4,9 @@ from datetime import datetime
 
 def new_command(message):
 
+    timestamp = datetime.now().strftime("%m/%d/%Y-%H:%M:%S") + ' ... '
+    author = message.author
+
     try:
         # Parsing incoming message to get new bot command
         new_command = message.content[4:].split(',')[0]
@@ -34,7 +37,7 @@ def new_command(message):
 
     # Checking if command already exists and responding in discord then exiting on_message
     if new_command in command_check:
-        print('Command already exists.')
+        print(f'    {author} attempted to add the pre-existing command: {message.content.split(" ")[1].split(",")[0]}')
         return f'{new_command} already exists or error with request format.'
 
     # If command found to not exist above, creating new command in csv and responding with new command
