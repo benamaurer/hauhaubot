@@ -155,8 +155,13 @@ async def on_message(message):
         meme_response = []
         for char in message.content[2:]:
             uppercase = random.randint(0,1)
-            if char == ' ' or uppercase == 0:
-                meme_response.append(char)
+            if char == ' ':
+                continue
+            elif uppercase == 0:
+                try:
+                    meme_response.append(char.lower())
+                except:
+                    meme_response.append(char)
             else:
                 try:
                     meme_response.append(char.upper())
