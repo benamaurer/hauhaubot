@@ -8,6 +8,7 @@ import urllib.request
 from urllib.request import Request, urlopen
 from bs4 import BeautifulSoup
 from timers import *
+import random
 
 
 # Toggles
@@ -48,9 +49,6 @@ async def on_message(message):
         else:
             print(f'{timestamp}{author} executed [{command}]. ')
 
-
-    if message.author.bot:
-        return
 
 # _add command
     if message.content.find('_add') != -1:
@@ -150,5 +148,34 @@ async def on_message(message):
             await message.channel.send(post_trim)
         else:
             return
+
+
+# Responds with meme capitalized text
+    if message.content[:2] == '_ ':
+        meme_response = []
+        for char in message.content[2:]:
+            uppercase = random.randint(0,1)
+            if char == ' ' or uppercase == 0:
+                meme_response.append(char)
+            else:
+                try:
+                    meme_response.append(char.upper())
+                except:
+                    meme_response.append(char)
+        await message.channel.send(''.join([str(elem) for elem in meme_response]))
+
+
+# Sending message from the bot if sent in bot console channel
+    if str(message.channel) == 'console':
+        channel_send = bot.get_channel(771057112867405886)
+        if message.content[:4] == '_del':
+            await channel_send.send(message.content[4:])
+            time.sleep(1)
+            await channel_send.purge(limit=1)
+        else:
+            await channel_send.send(message.content)
+        print(message.content[:4])
+
+
 
 bot.run(str(os.getenv('token')))

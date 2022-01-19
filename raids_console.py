@@ -1,27 +1,11 @@
-#---------------------------------------------------------------------------------------------------------------
-#Importing packages
 import discord
 import sys
+from dotenv import load_dotenv
+import os
 
 
-#---------------------------------------------------------------------------------------------------------------
-#Loading information from reference files
-
-#Obtaining token/guild ID
-def read_token():
-    with open("token.txt", "r") as f:
-        lines = f.readlines()
-        return lines[0].strip()
-
-
-# #Reading bot-specific data file and returning data=[return value]
-# def read_bcf(data):
-#     with open("bcf_data.txt", "r") as f:
-#         lines = f.readlines()
-#         for line in lines:
-#             if str(data) in str(line.strip()):
-#                 return (str(line.split("=")[1].strip()))
-
+# Loading .env
+load_dotenv()
 
 
 #Prints information to the console including: sender, command run, and time
@@ -29,25 +13,15 @@ def log_sender(command, sender):
     print("---" + str(sender) + " ran (" + command + ") at " + str(time.strftime('%H:%M:%S_%m/%d/%y')) + "---")
 
 
-
-#---------------------------------------------------------------------------------------------------------------
-#Initial variable declaration
-
-
 line_break = "-------------------------------------------------------------------------\n "
-token = read_token()
+token = str(os.getenv('token'))
 client = discord.Client()
-# guild_ID = int(read_bcf("guild_ID"))
-
-
-
-#---------------------------------------------------------------------------------------------------------------
-#Discord event handler
+guild_ID = str(os.getenv('guild_id'))
 
 
 @client.event
 async def on_ready():
-    id = 717449642333306880
+    for channel in client.get_guild(guild_ID)
     print("Message event handler running, type \"_logout\" to exit.")
     while True:
         print(">:")
@@ -56,6 +30,10 @@ async def on_ready():
         if cli_message == "_logout":
             print("script stopping...")
             sys.exit()
+
+        if cli_message == "_channels"
+            for channel in channels:
+                print(channel)
 
         message_split = cli_message.split()[1:]
         message_out = " ".join(message_split)
