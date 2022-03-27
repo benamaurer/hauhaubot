@@ -12,9 +12,7 @@ import os
 # Loading .env
 load_dotenv()
 
-
 token = str(os.getenv('token'))
-
 
 
 def sql_connect(db_file):
@@ -23,7 +21,6 @@ def sql_connect(db_file):
         conn = sqlite3.connect(db_file)
     except Error as e:
         print(e)
-
     return conn
 
 
@@ -32,7 +29,6 @@ def sql_create_timer(conn, timer):
     cur = conn.cursor()
     cur.execute(sql, timer)
     conn.commit()
-
     return cur.lastrowid
 
 
@@ -52,13 +48,8 @@ def timer_parse(message, author):
     # test_mins = 1
     item_mins = vlookup.vlookup(str(reminder_item),"plant_times.csv",3)
     then = now + timedelta(minutes = int(item_mins))
-    # test_then = now + timedelta(minutes = int(test_mins))
 
-    #WINDOWS
-    database = "raids_sql.db"
-
-    #LINUX
-    # database = "/home/ben/github/raids_bot/raids_sql.db"
+    database = "~/github/raids_bot/raids_sql.db"
 
     try:
         reminder_type = vlookup.vlookup(str(reminder_item),"plant_times.csv",2)
@@ -67,20 +58,18 @@ def timer_parse(message, author):
         print("Error: Unable to determine timer type, defaulting to untyped timer!")
         return "Error: Unable to determine timer type, defaulting to untyped timer!"
 
-
     conn = sql_connect(database)
-
     with conn:
         #reminder_id, discord_id, reminder_type, reminder_item, now, then, sent
         test_timer = (author, reminder_type, reminder_item, now, then, 0)
-        print(str(author) + ", " + reminder_type + ", " + reminder_item + ", " + str(now) + ", " + str(then) + ", " + "0")
+        print(f"{author}, {reminder_type}, {reminder_item}, {now}, {then}, 0")
         sql_create_timer(conn, test_timer)
         if str(now.date()) == str(then.date()):
             then = then.strftime("at %I:%M %p")
         else:
             then = then.strftime("on %A at %I:%M %p")
 
-    return "<@" + str(author) + "> Your timer was created, you will be reminded " + str(then) + "."
+    return f"<@{author}> Your timer was created, you will be reminded {then}."
 
 
 def get_timers():
@@ -107,9 +96,9 @@ def get_timers():
 def ping_create(reminder_id, discord_id, reminder_type, reminder_item):
 
     if reminder_type=="tree" or reminder_type=="herb" or reminder_type=="birdhouse":
-        return "<@" + str(discord_id) + ">, your " + str(reminder_item) + " " + str(reminder_type) + "s are ready. (id - " + str(reminder_id) + ")"
+        return f"<@{discord_id}>, your {reminder_item} {reminder_type}s are ready. (id - {reminder_id})"
     else:
-        return "<@" + str(discord_id) + "> your " + str(reminder_type) + " timer has finished."
+        return f"<@{discord_id}>, your {reminder_type} timer has finished."
 
 
 def compare_time(reminder_time):
@@ -166,7 +155,7 @@ def reminder_check():
                 update_timer(reminder_id)
                 print("updated")
             elif compare_time(reminder_time) == "future":
-                print("Time for timer id: " + str(reminder_id) + " is in the future.")
+                print(f"Time for timer id: {reminder_id} is in the future.")
             else:
                 print("Unable to compare times for this reminder.")
         print("Sending the below pings: \n----------------------------")
@@ -177,10 +166,7 @@ def reminder_check():
         return "E"
 
 
-
-
 if __name__ == '__main__':
-    # timer_parse("_timer magic", 80085)
 
     update_timer(2)
 
