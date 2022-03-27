@@ -5,7 +5,7 @@ def create_db_connection(db_file):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
-        print("Running sqlite3 version " + str(sqlite3.version))
+        print(f"Running sqlite3 version {sqlite3.version}")
     except Error as e:
         print(e)
     finally:
