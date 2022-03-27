@@ -13,9 +13,4 @@ def create_db_connection(db_file):
             conn.close()
 
 if __name__ == '__main__':
-
-    #WINDOWS
-    # create_db_connection("raids_sql.db")
-
-    #UBUNTU
-    create_db_connection("/home/ben/github/raids_bot/raids_sql.db")
+    create_db_connection("~/github/raids_bot/raids_sql.db")
