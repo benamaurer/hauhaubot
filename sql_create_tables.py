@@ -21,15 +21,9 @@ def create_table(conn, create_table_sql):
 
 
 def main():
-    #WINDOWS
-    # database = "raids_sql.db"
 
-    #UBUNTU
-    database = "/home/ben/github/raids_bot/raids_sql.db"
-
-
+    database = "~/github/raids_bot/raids_sql.db"
     sql_create_timers_table = """CREATE TABLE IF NOT EXISTS timers (id integer PRIMARY KEY, discord_id integer, reminder_type text, reminder_item text, request_time text, end_time text, sent integer); """
-
     conn = create_connection(database)
 
     if conn is not None:
