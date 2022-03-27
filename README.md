@@ -1,6 +1,6 @@
 ## hauhaubot
 
-####A simple python discord bot which responds to messages sent in discord server.
+*A simple python discord bot which responds to messages sent in discord server.*
 
 - Responds with simple text / links based on a commands list file
 - Users can add new commands to the commands list via messages in discord
