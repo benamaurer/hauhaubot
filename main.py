@@ -172,7 +172,7 @@ async def on_message(message):
 
 # Sending message from the bot if sent in bot console channel
     if str(message.channel) == 'console':
-        channel_send = bot.get_channel(771057112867405886)
+        channel_send = bot.get_channel(<HARDCODED_CHANNEL>)
         if message.content[:4] == '_del':
             await channel_send.send(message.content[4:])
             time.sleep(1)
