@@ -10,7 +10,7 @@ load_dotenv()
 
 #Prints information to the console including: sender, command run, and time
 def log_sender(command, sender):
-    print("---" + str(sender) + " ran (" + command + ") at " + str(time.strftime('%H:%M:%S_%m/%d/%y')) + "---")
+    print(f"---{sender} ran ({command}) at {time.strftime('%H:%M:%S_%m/%d/%y')}---")
 
 
 line_break = "-------------------------------------------------------------------------\n "
@@ -38,7 +38,7 @@ async def on_ready():
         message_split = cli_message.split()[1:]
         message_out = " ".join(message_split)
         channel_select = cli_message.split()[0]
-        print("Sending:    \"" + str(message_out) + "\"    to (" + str(channel_select) + ") channel, confirm?  (\"n\" to cancel)")
+        print(f"Sending:    \"{message_out}\"    to ("{channel_select}") channel, confirm?  (\"n\" to cancel)")
         confirm = input()
         if str(confirm) == "n":
             break
