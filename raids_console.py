@@ -42,9 +42,9 @@ async def on_ready():
         confirm = input()
         if str(confirm) == "n":
             break
-        tob = client.get_channel(758032791496687718)
-        bot = client.get_channel(771131702453600277)
-        test = client.get_channel(771057112867405886)
+        tob = client.get_channel(<HARDCODECHANNEL>)
+        bot = client.get_channel(<HARDCODECHANNEL>)
+        test = client.get_channel(<HARDCODECHANNEL>)
 
         try:
             if channel_select == "test":
