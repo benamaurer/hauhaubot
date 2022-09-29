@@ -99,11 +99,23 @@ async def on_message(message):
         await message.channel.send(timer_parse(message.content, str(message.author.id)))
 
 
+# kek and kekw gif response
+    if message.content.find("kek") != -1 or message.content.find("kekw") != -1:
+        if message.author.bot:
+            return
+        await message.channel.send("https://tenor.com/view/kekwtf-gif-18599263")
+
+
 # _pid command
     if message.content == ("_pid"):
         await message.delete()
         await message.channel.send("ᵖᶦᵈ")
         await message.channel.send(read_data('dab'))
+
+
+# _lets piss
+    if message.content.find("_lets piss") != -1 or message.content.find("_letspiss") != -1:
+        await message.channel.send("https://cdn.discordapp.com/attachments/896935763927777330/980309298259312650/unknown.png")
 
 
 # _fact command
