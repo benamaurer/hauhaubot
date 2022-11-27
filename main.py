@@ -21,7 +21,7 @@ dev = ['mauberries#0001','ohiotexas#9559']
 # Loading .env
 load_dotenv()
 
-# Defining bot process
+# Defining bot process.
 bot = discord.Client()
 
 # Keeping this here in the case dotenv not being used
